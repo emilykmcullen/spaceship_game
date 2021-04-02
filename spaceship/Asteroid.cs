@@ -17,7 +17,7 @@ namespace spaceship
         {
             speed = newSpeed;
             
-            position = new Vector2(800 + radius, rand.Next(0,401));
+            position = new Vector2(1280 + radius, rand.Next(0,721));
         }
 
         public void asteroidUpdate(GameTime gameTime)

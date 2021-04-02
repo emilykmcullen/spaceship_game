@@ -13,6 +13,8 @@ namespace spaceship
         public double maxTime = 2D;
         public int nextSpeed = 240;
 
+        public bool inGame = false;
+
         public Controller()
         {
             
@@ -20,8 +22,19 @@ namespace spaceship
 
         public void conUpdate(GameTime gameTime)
         {
-            timer -= gameTime.ElapsedGameTime.TotalSeconds;
-
+            if (inGame)
+            {
+                timer -= gameTime.ElapsedGameTime.TotalSeconds;
+            }
+            else
+            {
+                KeyboardState kState = Keyboard.GetState();
+                if (kState.IsKeyDown(Keys.Enter)){
+                    inGame = true;
+                }
+            }
+            
+            //game starts when timer reaches 0
             if (timer <= 0)
             {
                 //every *timer* seconds add a new asteroid, and then decrease the time between

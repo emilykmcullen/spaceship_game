@@ -26,8 +26,12 @@ namespace spaceship
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            //_graphics.PreferredBackBufferWidth = 1280;
-            //_graphics.PreferredBackBufferHeight = 720;
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
+            _graphics.PreferredBackBufferWidth = 1280;
+            _graphics.PreferredBackBufferHeight = 720;
+            _graphics.ApplyChanges();
         }
 
         protected override void Initialize()
@@ -56,12 +60,27 @@ namespace spaceship
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            player.shipUpdate(gameTime);
+            player.shipUpdate(gameTime, gameController);
             gameController.conUpdate(gameTime);
 
+            
             for (int i =0; i < gameController.asteroids.Count; i++)
             {
+                //loop through all the existing asteroids and run the update to move them
                 gameController.asteroids[i].asteroidUpdate(gameTime);
+
+                //sum of radius of asteroid sprite and radius of ship sprite
+                int sum = gameController.asteroids[i].radius + 30;
+
+                //check for collisions
+                if (Vector2.Distance(gameController.asteroids[i].position, player.position) < sum){
+                    gameController.inGame = false;
+                    player.position = Ship.defaultPosition;
+                    // stop further iterations
+                    i = gameController.asteroids.Count;
+                    gameController.asteroids.Clear();
+                   
+                }
             }
 
             base.Update(gameTime);
@@ -75,6 +94,13 @@ namespace spaceship
 
             _spriteBatch.Draw(space_Sprite, new Vector2(0, 0), Color.White);
             _spriteBatch.Draw(ship_Sprite, new Vector2(player.position.X - 34, player.position.Y - 50), Color.White);
+
+            if (gameController.inGame == false)
+            {
+                string menuMessage = "Press Enter to Begin";
+                Vector2 sizeOfText = gameFont.MeasureString(menuMessage);
+                _spriteBatch.DrawString(gameFont, menuMessage, new Vector2(640 - sizeOfText.X / 2, 200), Color.White);
+            }
 
             for (int i = 0; i < gameController.asteroids.Count; i++)
             {
