@@ -10,6 +10,8 @@ namespace spaceship
     {
         public List<Asteroid> asteroids = new List<Asteroid>();
         public double timer = 2D;
+        public double maxTime = 2D;
+        public int nextSpeed = 240;
 
         public Controller()
         {
@@ -22,8 +24,21 @@ namespace spaceship
 
             if (timer <= 0)
             {
-                asteroids.Add(new Asteroid(250));
-                timer = 2D;
+                //every *timer* seconds add a new asteroid, and then decrease the time between
+                //asteroids spawning
+                asteroids.Add(new Asteroid(nextSpeed));
+                timer = maxTime;
+                if (maxTime > 0.5)
+                {
+                    maxTime -= 0.1D;
+                }
+
+                // increase the speed with each new asteroid
+                if (nextSpeed < 720)
+                {
+                    nextSpeed += 4;
+                }
+                
             }
 
         }
