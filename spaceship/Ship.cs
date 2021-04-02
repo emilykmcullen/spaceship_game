@@ -24,19 +24,20 @@ namespace spaceship
 
             if (gameController.inGame)
             {
-                if (kState.IsKeyDown(Keys.Right))
+                //check if a key is down and that the player is not going off screen
+                if (kState.IsKeyDown(Keys.Right) && position.X < 1280)
                 {
                     position.X += speed * dt;
                 }
-                if (kState.IsKeyDown(Keys.Left))
+                if (kState.IsKeyDown(Keys.Left) && position.X > 0)
                 {
                     position.X -= speed * dt;
                 }
-                if (kState.IsKeyDown(Keys.Up))
+                if (kState.IsKeyDown(Keys.Up) && position.Y > 0)
                 {
                     position.Y -= speed * dt;
                 }
-                if (kState.IsKeyDown(Keys.Down))
+                if (kState.IsKeyDown(Keys.Down) && position.Y < 720)
                 {
                     position.Y += speed * dt;
                 }

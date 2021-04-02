@@ -12,6 +12,7 @@ namespace spaceship
         public int speed;
         public int radius = 59;
         Random rand = new Random();
+        public bool offscreen = false;
 
         public Asteroid(int newSpeed)
         {

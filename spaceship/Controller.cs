@@ -12,6 +12,7 @@ namespace spaceship
         public double timer = 2D;
         public double maxTime = 2D;
         public int nextSpeed = 240;
+        public float totalTime = 0F;
 
         public bool inGame = false;
 
@@ -25,12 +26,17 @@ namespace spaceship
             if (inGame)
             {
                 timer -= gameTime.ElapsedGameTime.TotalSeconds;
+                totalTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             }
             else
             {
                 KeyboardState kState = Keyboard.GetState();
                 if (kState.IsKeyDown(Keys.Enter)){
                     inGame = true;
+                    totalTime = 0F;
+                    timer = 2D;
+                    maxTime = 2D;
+                    nextSpeed = 240;
                 }
             }
             
